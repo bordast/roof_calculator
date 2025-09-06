@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>Trapézlemez kalkulátor</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 20px; }
+    #details, #calc { margin-top: 16px; border: 1px solid #ccc; border-radius: 8px; padding: 12px; }
+    .muted { color: #666; }
+    label { display: block; margin: 6px 0; }
+    input { padding: 4px 6px; }
+  </style>
+</head>
+<body>
+  <h1>Trapézlemez típus választó</h1>
+
+  <label>
+  Tűrés (mm):
+  <input id="tolerance" type="number" step="1" min="0" value="100" />
+  </label>
+
+  <label for="plateSelect">Válassz lemezt:</label>
+  <select id="plateSelect">
+    <option value="" disabled selected>-- válassz --</option>
+  </select>
+
+  <div id="details" class="muted">
+    Nincs kiválasztva lemez.
+  </div>
+
+  <!-- Mini calculator -->
+  <div id="calc" class="muted">
+    <h2>Kalkulátor</h2>
+    <label>
+      Tető szélesség (mm):
+      <input id="roofWidth" type="number" step="1" placeholder="pl. 6500" />
+    </label>
+    <div id="calcResult">Először válassz lemezt.</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

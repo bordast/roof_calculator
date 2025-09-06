@@ -1,0 +1,11 @@
+body { font-family: system-ui, sans-serif; padding: 20px; }
+.toolbar { display: flex; gap: 10px; margin-bottom: 14px; align-items: center; }
+.import-label { display: inline-flex; align-items: center; }
+.import-label span { display: inline-block; padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px; cursor: pointer; }
+
+form { margin-bottom: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+#plateList { list-style: none; padding: 0; }
+#plateList li { margin: 6px 0; padding: 6px 10px; border: 1px solid #ccc; border-radius: 6px;
+  display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+#plateList .meta { color: #666; font-size: 12px; }
+#plateList .row { display: flex; gap: 8px; align-items: center; }

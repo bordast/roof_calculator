@@ -1,0 +1,23 @@
+[
+    {
+        "id" : 1,
+        "name": "T20 / 1160 Trapézlemez",
+        "fullWidth" : 1160,
+        "usefullWidth" : 1100,
+        "recommandedMaxLengt" : 3000
+    },
+    {
+        "id" : 2,
+        "name": "T45 Trapézlemez",
+        "fullWidth" : 1500,
+        "usefullWidth" : 1000,
+        "recommandedMaxLengt" : 4000
+    },
+    {
+        "id" : 3,
+        "name": "T35 Trapézlemez",
+        "fullWidth" : 1100,
+        "usefullWidth" : 1000,
+        "recommandedMaxLengt" : 6000
+    }
+]
