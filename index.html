@@ -1,43 +1,30 @@
-<!doctype html>
-<html lang="hu">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Trapézlemez kalkulátor</title>
-  <style>
-    body { font-family: system-ui, sans-serif; padding: 20px; }
-    #details, #calc { margin-top: 16px; border: 1px solid #ccc; border-radius: 8px; padding: 12px; }
-    .muted { color: #666; }
-    label { display: block; margin: 6px 0; }
-    input { padding: 4px 6px; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Document</title>
 </head>
 <body>
-  <h1>Trapézlemez típus választó</h1>
-
-  <label>
-  Tűrés (mm):
-  <input id="tolerance" type="number" step="1" min="0" value="100" />
-  </label>
-
-  <label for="plateSelect">Válassz lemezt:</label>
-  <select id="plateSelect">
-    <option value="" disabled selected>-- válassz --</option>
-  </select>
-
-  <div id="details" class="muted">
-    Nincs kiválasztva lemez.
+  <div class="elements">
+    <button disabled class="chip">this is a chip (disabled)</button>
+    <button class="chip">this is a chip</button>
+    <button class="chip active">this is a chip</button>
+    <button disabled class="button">this is a button (disabled)</button>
+    <button class="button">this is a button</button>
+    <button class="button active">this is a button</button>
+    <title>This is a title</title>
+    <h1>This is a H1 tag</h1>
+    <h2>This is a H2 tag</h2>
+    <p>This is a p tag</p>
+    <p class="caption">This is a caption class in a p tag</p>
+    <div class="inputField">
+      <label class="label" for="1">This is a label </label>
+      <input id="1" type="text" placeholder="This is an input field">
+    </div>
+    
   </div>
-
-  <!-- Mini calculator -->
-  <div id="calc" class="muted">
-    <h2>Kalkulátor</h2>
-    <label>
-      Tető szélesség (mm):
-      <input id="roofWidth" type="number" step="1" placeholder="pl. 6500" />
-    </label>
-    <div id="calcResult">Először válassz lemezt.</div>
-  </div>
-
   <script src="script.js"></script>
 </body>
 </html>
