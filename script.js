@@ -1,111 +1,115 @@
-const selectEl = document.getElementById('plateSelect');
-const detailsEl = document.getElementById('details');
-const roofWidthEl = document.getElementById('roofWidth');
-const tolEl = document.getElementById('tolerance');
-const resultEl = document.getElementById('calcResult');
+// script.js
+let plates = [];
+let selectedPlate = null;
 
-let currentUsefulWidth = null;   // U
-let currentFullWidth = null;     // F
-let currentMaxLength = null;
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.querySelector(".plate_type_items");
 
-function getTolerance() {
-  const t = parseFloat(tolEl.value);
-  if (!Number.isFinite(t) || t < 0) return 0; // védőkorlát
-  return t;
-}
+  fetch("db.json")
+    .then(r => r.json())
+    .then(data => {
+      plates = data || [];
+      if (!container) return;
 
-async function loadDB() {
-  try {
-    const res = await fetch('db.json', { cache: 'no-store' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.json();
-  } catch (err) {
-    console.error('Nem sikerült betölteni a db.json-t:', err);
-    return [];
-  }
-}
+      plates.forEach((item, i) => {
+        const btn = document.createElement("button");
+        btn.className = "btn btn--pill btn--default--outline";
+        btn.textContent = item.name.replace(" Trapézlemez", "");
+        btn.addEventListener("click", () => selectPlate(btn, item));
+        container.appendChild(btn);
 
-function fillSelect(plates) {
-  plates.forEach(p => {
-    const opt = document.createElement('option');
-    opt.value = p.id;
-    opt.textContent = p.name;
-    selectEl.appendChild(opt);
+        if (i === 0) selectPlate(btn, item); // első legyen aktív
+      });
+    })
+    .catch(err => console.error("db.json betöltési hiba:", err));
+});
+
+function selectPlate(button, item) {
+  const container = button.parentElement;
+  container.querySelectorAll("button").forEach(b => {
+    b.classList.remove("btn--primary--outline");
+    b.classList.add("btn--default--outline");
   });
+  button.classList.remove("btn--default--outline");
+  button.classList.add("btn--primary--outline");
+  selectedPlate = item;
 }
 
-function renderDetails(plate) {
-  if (!plate) {
-    detailsEl.innerHTML = '<div class="muted">Nincs kiválasztva lemez.</div>';
+function mmFromMeters(v) {
+  const n = Number(v);
+  return Number.isFinite(n) ? Math.round(n * 1000) : 0;
+}
+function mmFromCm(v) {
+  const n = Number(v);
+  return Number.isFinite(n) ? Math.round(n * 10) : 0;
+}
+
+window.calc = function calc() {
+  const widthEl = document.getElementById("width");
+  const lengthEl = document.getElementById("length");
+  const tolEl = document.getElementById("tolerance");
+  const summary = document.querySelector(".summary");
+
+  if (!summary) return;
+  if (!selectedPlate) {
+    summary.innerHTML = `<h1>Eredmény</h1><p>Válassz lemezt először.</p>`;
     return;
   }
-  detailsEl.innerHTML = `
-    <h2>${plate.name}</h2>
-    <div><strong>Teljes szélesség (F):</strong> ${plate.fullWidth} m</div>
-    <div><strong>Hasznos szélesség (U):</strong> ${plate.usefullWidth} m</div>
-    <div><strong>Ajánlott max hossz:</strong> ${plate.recommandedMaxLengt} m</div>
-    <div class="muted">Képlet: n = 1 + ceil( max(0, (W - F - T) / U) )</div>
+
+  const width_m = Number(widthEl?.value || 0);
+  const length_m = Number(lengthEl?.value || 0);
+  const tol_cm = Number(tolEl?.value || 0);
+
+  if (!(width_m > 0) || !(length_m > 0)) {
+    summary.innerHTML = `<h1>Eredmény</h1><p>Add meg a szélességet és a hosszt (m).</p>`;
+    return;
+  }
+
+  const usefulWidth_mm = Number(selectedPlate.usefullWidth); // db.json mm
+  if (!(usefulWidth_mm > 0)) {
+    summary.innerHTML = `<h1>Eredmény</h1><p>A kiválasztott lemeznél hiányzik a hasznos szélesség.</p>`;
+    return;
+  }
+
+  const width_mm = mmFromMeters(width_m);
+  const tol_mm = mmFromCm(tol_cm);
+
+  const full = Math.floor(width_mm / usefulWidth_mm);
+  const rem = width_mm % usefulWidth_mm;
+
+  const needExtra = rem > 0 && rem > tol_mm ? 1 : 0;
+  const sheetsAcross = full + needExtra;
+
+  const maxLen_mm = Number(selectedPlate.recommandedMaxLengt) || 0;
+  const length_mm = mmFromMeters(length_m);
+
+  // Hossz irány (opcionális bontás az ajánlott max hossz szerint)
+  let segmentsPerSheet = 1;
+  if (maxLen_mm > 0 && length_mm > maxLen_mm) {
+    segmentsPerSheet = Math.ceil(length_mm / maxLen_mm);
+  }
+
+  const totalSheets = sheetsAcross;
+  const perSheetLength_m = length_m / segmentsPerSheet;
+
+  // új: csavarok
+  const roofArea_m2 = width_m * length_m;
+  const screwsNeeded = roofArea_m2 * 6;
+  const screwsRounded = Math.ceil(screwsNeeded / 10) * 10;
+
+  summary.innerHTML = `
+    <h1>Eredmény</h1>
+    <div class="summary__content">
+      <div><strong>Kiválasztott lemez:</strong> ${selectedPlate.name}</div>
+      <div><strong>Hasznos szélesség:</strong> ${usefulWidth_mm} mm</div>
+      <div><strong>Tető szélesség:</strong> ${width_m} m</div>
+      <div><strong>Tető hossz:</strong> ${length_m} m</div>
+      <div><strong>Tűrés:</strong> ${tol_cm || 0} cm</div>
+      <div><strong>Lemezek száma (szélesség mentén):</strong> ${totalSheets} db</div>
+      <div><strong>Lemez hossza darabonként:</strong> ${perSheetLength_m.toFixed(2)} m${segmentsPerSheet>1 ? 
+        ` ( ${segmentsPerSheet} szegmensre bontva, ajánlott max: ${(maxLen_mm/1000).toFixed(2)} m )` : ''}</div>
+      <div><strong>Maradék a szélességen:</strong> ${rem === 0 ? '0 mm' : `${rem} mm`} (tűrés: ${tol_mm} mm)</div>
+      <div><strong>Szükséges csavar:</strong> ${screwsRounded} db (≈ ${screwsNeeded.toFixed(0)} db számolva)</div>
+    </div>
   `;
-}
-
-function calcSheetsAcross(W, U, F, T=0.10) {
-  if (!Number.isFinite(W) || W <= 0) return null;
-  if (!U || !F) return null;
-  // Ha 1 db utolsó tábla fullWidth-je + tűrés elég, akkor 1 db
-  if (W <= F + T) return 1;
-  // Különben először lefoglaljuk az utolsó táblát (F), a maradékot U-val fedjük
-  const n = 1 + Math.ceil(Math.max(0, (W - F - T) / U));
-  return n;
-}
-
-function updateCalc() {
-  const W = parseFloat(roofWidthEl.value);
-  const T = getTolerance();
-  if (!currentUsefulWidth || !currentFullWidth) {
-    resultEl.textContent = "Először válassz lemezt.";
-    return;
-  }
-  if (!Number.isFinite(W) || W <= 0) {
-    resultEl.textContent = "Írd be a tető szélességét (pozitív szám).";
-    return;
-  }
-
-  const U = currentUsefulWidth;
-  const F = currentFullWidth;
-
-  const n = calcSheetsAcross(W, U, F, T);
-  if (n == null) {
-    resultEl.textContent = "Hiányzó adatok a számításhoz.";
-    return;
-  }
-
-  // Informatív visszajelzés: mennyit fedünk és mennyi a maradék
-  const covered = (n - 1) * U + F;
-  const shortfall = Math.max(0, W - covered);   // ennyivel maradunk rövidek (ha > 0)
-  const withinTol = shortfall <= T;
-
-  resultEl.innerHTML = `
-    <div><strong>Szükséges lemezek száma:</strong> ${n} db</div>
-    <div class="muted">Fedés: ${(covered).toFixed(2)} m, hiány: ${(shortfall).toFixed(2)} m ${withinTol ? '(tűrésen belül)' : '(túllépi a tűrést!)'}</div>
-  `;
-}
-
-(async function init() {
-  const plates = await loadDB();
-  fillSelect(plates);
-
-  selectEl.addEventListener('change', () => {
-    const chosen = plates.find(p => String(p.id) === selectEl.value);
-    renderDetails(chosen);
-
-    if (chosen) {
-      currentUsefulWidth = chosen.usefullWidth;       // U
-      currentFullWidth   = chosen.fullWidth;          // F
-      currentMaxLength   = chosen.recommandedMaxLengt;
-      updateCalc();
-    }
-  });
-
-  roofWidthEl.addEventListener('input', updateCalc);
-  tolEl.addEventListener('input', updateCalc);
-})();
+};

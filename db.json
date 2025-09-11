@@ -1,23 +1,37 @@
 [
     {
         "id" : 1,
-        "name": "T20 / 1160 Trapézlemez",
-        "fullWidth" : 1160,
-        "usefullWidth" : 1100,
-        "recommandedMaxLengt" : 3000
-    },
-    {
-        "id" : 2,
-        "name": "T45 Trapézlemez",
-        "fullWidth" : 1500,
-        "usefullWidth" : 1000,
+        "name": "T20 / 1120 Trapézlemez",
+        "fullWidth" : 1120,
+        "usefullWidth" : 1080,
         "recommandedMaxLengt" : 4000
     },
     {
+        "id" : 2,
+        "name": "T20 / 1160 Trapézlemez",
+        "fullWidth" : 1160,
+        "usefullWidth" : 1100,
+        "recommandedMaxLengt" : 6000
+    },
+    {
         "id" : 3,
-        "name": "T35 Trapézlemez",
+        "name": "T38 Trapézlemez",
         "fullWidth" : 1100,
         "usefullWidth" : 1000,
+        "recommandedMaxLengt" : 6000
+    },
+    {
+        "id" : 4,
+        "name": "T45 Trapézlemez",
+        "fullWidth" : 1050,
+        "usefullWidth" : 1000,
+        "recommandedMaxLengt" : 6000
+    },
+    {
+        "id" : 5,
+        "name": "T50 Trapézlemez",
+        "fullWidth" : 1080,
+        "usefullWidth" : 1040,
         "recommandedMaxLengt" : 6000
     }
 ]

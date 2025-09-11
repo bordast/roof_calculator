@@ -9,19 +9,15 @@
 <body>
   <main class="app">
     <section class="roof_type">
-      <h1 class="title">Válaszd ki a tető típusát</h1>
-      <button class="btn btn--rounded btn--default--outline">Féltető</button>
-      <button class="btn btn--rounded btn--default--outline">Szimetrikus nyeregtető</button>
-      <button class="btn btn--rounded btn--default--outline">Asszimetrikus nyeregtető</button>
-      <button class="btn btn--rounded btn--default--outline">Sátortető</button>
+      <h1 class="title">Tetőtípus</h1>
+      <button class="btn btn--rounded btn--primary--outline">Féltető</button>
+      <button class="btn btn--rounded btn--disabled">Szimetrikus nyeregtető</button>
+      <button class="btn btn--rounded btn--disabled">Asszimetrikus nyeregtető</button>
+      <button class="btn btn--rounded btn--disabled">Sátortető</button>
     </section>
-        <section class="plate_type">
-      <h1>Válaszd ki a tető típusát</h1>
-      <button class="btn btn--pill btn--default--outline">T20 / 1120</button>
-      <button class="btn btn--pill btn--default--outline">T20 / 1160</button>
-      <button class="btn btn--pill btn--default--outline">T38</button>
-      <button class="btn btn--pill btn--default--outline">T45</button>
-      <button class="btn btn--pill btn--default--outline">T50</button>
+      <section class="plate_type">
+      <h1>Lemez típus</h1>
+      <div class="plate_type_items">
     </section>
     <h1>Méretek</h1>
     <section class="calculate">
@@ -57,7 +53,7 @@
             </div>
         </div>
       </section>
-      <button class="btn btn--rounded btn--primary--solid" onclick="calc">Féltető számítása</button>
+      <button class="btn btn--rounded btn--primary--solid" onclick="calc()">Féltető számítása</button>
     </section>
   </main>
   <aside class="summary">
