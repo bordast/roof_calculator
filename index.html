@@ -7,24 +7,62 @@
   <title>Document</title>
 </head>
 <body>
-  <div class="elements">
-    <button disabled class="chip">this is a chip (disabled)</button>
-    <button class="chip">this is a chip</button>
-    <button class="chip active">this is a chip</button>
-    <button disabled class="button">this is a button (disabled)</button>
-    <button class="button">this is a button</button>
-    <button class="button active">this is a button</button>
-    <title>This is a title</title>
-    <h1>This is a H1 tag</h1>
-    <h2>This is a H2 tag</h2>
-    <p>This is a p tag</p>
-    <p class="caption">This is a caption class in a p tag</p>
-    <div class="inputField">
-      <label class="label" for="1">This is a label </label>
-      <input id="1" type="text" placeholder="This is an input field">
-    </div>
-    
-  </div>
+  <main class="app">
+    <section class="roof_type">
+      <h1 class="title">Válaszd ki a tető típusát</h1>
+      <button class="btn btn--rounded btn--default--outline">Féltető</button>
+      <button class="btn btn--rounded btn--default--outline">Szimetrikus nyeregtető</button>
+      <button class="btn btn--rounded btn--default--outline">Asszimetrikus nyeregtető</button>
+      <button class="btn btn--rounded btn--default--outline">Sátortető</button>
+    </section>
+        <section class="plate_type">
+      <h1>Válaszd ki a tető típusát</h1>
+      <button class="btn btn--pill btn--default--outline">T20 / 1120</button>
+      <button class="btn btn--pill btn--default--outline">T20 / 1160</button>
+      <button class="btn btn--pill btn--default--outline">T38</button>
+      <button class="btn btn--pill btn--default--outline">T45</button>
+      <button class="btn btn--pill btn--default--outline">T50</button>
+    </section>
+    <h1>Méretek</h1>
+    <section class="calculate">
+      <section class="measurements">
+        <div class="measurements-section">
+          <div class="inputField">
+          <div class="inputFieldImg">
+            <img src="/svg/lemez_szelesseg_1x1.svg" alt="Lemez szélesség">
+          </div>
+          <div class="inputFieldInput">
+            <label for="width">Fedendő felület szélessége (m)</label>
+            <input type="number" id="width" placeholder="Pl.: 5">
+        </div>  
+        </div>
+          <div class="inputField">
+            <div class="inputFieldImg">
+              <img src="/svg/lemez_hossz_1x1.svg" alt="Lemez hossz">
+            </div>
+            <div class="inputFieldInput">
+              <label for="length">Fedendő felület hossza (m)</label>
+              <input type="number" id="length" placeholder="Pl.: 10">
+            </div>
+        </div>
+        </div>
+        <div class="measurements-section">
+          <div class="inputField">
+            <div class="inputFieldImg">
+              <img src="/svg/tures_1x1.svg" alt="Lemez hossz">
+            </div>
+            <div class="inputFieldInput">
+                <label for="tolerance">Tűrés (cm)</label>
+                <input type="number" id="tolerance" placeholder="Pl.: 5">
+            </div>
+        </div>
+      </section>
+      <button class="btn btn--rounded btn--primary--solid" onclick="calc">Féltető számítása</button>
+    </section>
+  </main>
+  <aside class="summary">
+    <h1>Eredmény</h1>
+  </aside>
   <script src="script.js"></script>
 </body>
 </html>

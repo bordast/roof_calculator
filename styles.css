@@ -54,50 +54,111 @@
 }
 
 body {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
   font: var(--body);
   background-color: var(--gray-100);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-button {
+.btn {
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
   font: var(--caption);
-  padding: var(--l) var(--xl);
+  padding: var(--m) var(--l);
+  border-radius: var(--l);
   border: 2px solid var(--gray-200);
   background: none;
-  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s);
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
-button.active {
-  background-color: var(--primary-100);
+.btn:active { transform: translateY(2px); }
+
+.btn--rounded { border-radius: var(--l); }
+.btn--pill { border-radius: 9999px; }
+
+.btn--primary--solid {
+  background: var(--primary-500);
+  border: 2px solid var(--primary-500);
+  color: var(--gray-100);
+}
+
+.btn--primary--solid:hover {
+  background: var(--primary-700);
+  border: 2px solid var(--primary-700);
+}
+
+.btn--primary--outline {
+  background: transparent;  
   border: 2px solid var(--primary-500);
   color: var(--primary-500);
 }
 
-button.chip { border-radius: var(--xl); }
-button.button { border-radius: var(--l); }
+.btn--primary--outline:hover { background: var(--primary-100); }
 
-button:hover { background-color: var(--gray-200); }
-button:active { transform: translateY(3px); }
+.btn--primary--ghost {
+  background: var(--primary-100);
+  border: 2px solid var(--primary-100);
+  color: var(--primary-500);
+}
 
-button:disabled {
-  background-color: var(--gray-200);
-  border: 2px solid var(--gray-300);
+.btn--primary--ghost:hover {
+  background: var(--primary-300);
+  border: 2px solid var(--primary-300);
+  color: var(--gray-100);
+}
+
+.btn--default--solid {
+  background: var(--gray-500);
+  border: 2px solid var(--gray-500);
+  color: var(--gray-100);
+}
+
+.btn--default--solid:hover { 
+  background: var(--gray-400);
+  border: 2px solid var(--gray-400);
+}
+
+.btn--default--outline {
+  background: transparent;  
+  border: 2px solid var(--gray-200);
+  color: var(--gray-500);
+}
+
+.btn--default--outline:hover { background: var(--gray-200);}
+
+.btn--default--ghost {
+  background: var(--gray-200);
+  border: 2px solid var(--gray-200);
+  color: var(--gray-500);
+}
+
+.btn--default--ghost:hover { background: var(--gray-300); border: 2px solid var(--gray-300); }
+
+.btn--disabled, .btn[disabled], .btn--disabled:hover {
+  background: var(--gray-200);
+  border: 2px solid var(--gray-200);
   color: var(--gray-300);
   cursor: not-allowed;
 }
 
-title {
+.title {
   font: var(--title);
   color: var(--gray-700);
-  margin-bottom: var(--xxl);
+  margin-bottom: var(--l);
 }
 
 h1 {
   font: var(--heading1);
   color: var(--gray-700);
-  margin-bottom: var(--l);
+  margin: var(--xl) 0 var(--m) 0;
 }
 
 h2 {
@@ -124,23 +185,89 @@ p {
   margin-bottom: var(--s);
 }
 
+label {
+  font: var(--caption);
+  color: var(--gray-300);
+  margin-bottom: var(--s);
+}
+
 input {
+  width: 300px;
   font: var(--caption);
   padding: var(--m) var(--l);
   border: 2px solid var(--gray-200);
   border-radius: var(--l);
   outline: none;
-  color: var(--gray-300);
+  color: var(--gray-700);
   transition: all 0.2s ease;
+}
+
+input:hover {
+  border: 2px solid var(--primary-500);
+  background: var(--primary-100);
+}
+
+input:hover::placeholder {
+  color: var(--primary-300);
 }
 
 input:focus {
   border: 2px solid var(--primary-500);
 }
 
+input:focus::placeholder {
+  color: var(--primary-100);
+}
+
 .inputField {
+  display: flex;  
+  align-items: center;
+  gap: var(--l);
+  width: max-content;
+}
+
+.inputFieldImg {
+  width: 100px;
+}
+
+.inputField label {
+  display: inline-flex;
+  width: auto;
+}
+
+.inputFieldInput {
   display: flex;
   flex-direction: column;
-  gap: var(--s);
-  margin-bottom: var(--m);
+}
+
+.measurements {
+  display: flex;
+  flex-direction: column;
+  gap: var(--l);
+  max-width: max-content;
+}
+
+.calculate {
+  display: flex;
+  flex-direction: column;
+  gap: var(--l);
+  max-width: max-content;
+}
+
+.measurements-section  {
+  display: inline-flex;
+  flex-direction: column;
+  width: max-content;
+  padding: var(--l);
+  border-radius: var(--l);
+  border: 2px solid var(--gray-200);
+}
+
+main.app {
+  padding: var(--xxl);
+}
+
+aside.summary {
+  padding: var(--xxl);
+  background: var(--gray-200);
 }
